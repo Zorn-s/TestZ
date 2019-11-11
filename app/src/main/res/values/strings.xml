@@ -1,0 +1,194 @@
+<resources>
+    <string name="app_name">GeneratorP</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="goroda">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Новосибирск</item>
+        <item>Екатеринбург</item>
+        <item>Нижний Новгород</item>
+        <item>Самара</item>
+        <item>Омск</item>
+        <item>Казань</item>
+        <item>Челябинск</item>
+        <item>Ростов-на-Дону</item>
+        <item>Уфа</item>
+        <item>Волгоград</item>
+        <item>Пермь</item>
+        <item>Красноярск</item>
+        <item>Воронеж</item>
+        <item>Саратов</item>
+        <item>Краснодар</item>
+        <item>Тольятти</item>
+        <item>Ижевск</item>
+        <item>Ульяновск</item>
+        <item>Барнаул</item>
+        <item>Владивосток</item>
+        <item>Ярославль</item>
+        <item>Иркутск</item>
+        <item>Тюмень</item>
+        <item>Махачкала</item>
+        <item>Хабаровск</item>
+        <item>Новокузнецк</item>
+        <item>Оренбург</item>
+        <item>Кемерово</item>
+        <item>Рязань</item>
+        <item>Томск</item>
+        <item>Астрахань</item>
+        <item>Пенза</item>
+        <item>Набережные Челны</item>
+        <item>Липецк</item>
+        <item>Тула</item>
+        <item>Киров</item>
+        <item>Чебоксары</item>
+        <item>Калининград</item>
+        <item>Брянск</item>
+        <item>Курск</item>
+        <item>Иваново</item>
+        <item>Магнитогорск</item>
+        <item>Улан-Удэ</item>
+        <item>Тверь</item>
+        <item>Ставрополь</item>
+        <item>Нижний Тагил</item>
+        <item>Белгород</item>
+        <item>Архангельск</item>
+
+    </string-array>
+
+    <string-array name="last_name">
+        <item>Иванов</item>
+        <item>Смирнов</item>
+        <item>Кузнецов</item>
+        <item>Попов</item>
+        <item>Васильев</item>
+        <item>Петров</item>
+        <item>Соколов</item>
+        <item>Михайлов</item>
+        <item>Новиков</item>
+        <item>Федоров</item>
+        <item>Морозов</item>
+        <item>Волков</item>
+        <item>Алексеев</item>
+        <item>Лебедев</item>
+        <item>Семенов</item>
+        <item>Егоров</item>
+        <item>Павлов</item>
+        <item>Козлов</item>
+        <item>Степанов</item>
+        <item>Николаев</item>
+        <item>Орлов</item>
+        <item>Андреев</item>
+        <item>Макаров</item>
+        <item>Никитин</item>
+        <item>Захаров</item>
+        <item>Зайцев</item>
+        <item>Соловьев</item>
+        <item>Борисов</item>
+        <item>Яковлев</item>
+        <item>Григорьев</item>
+    </string-array>
+
+    <string-array name="first_name">
+        <item>Александра</item>
+        <item>Аркадий</item>
+        <item>Анастасия</item>
+        <item>Алёна</item>
+        <item>Алексей</item>
+        <item>Анатолий</item>
+        <item>Анфиса</item>
+        <item>Аэлита</item>
+        <item>Александр</item>
+        <item>Андрей</item>
+        <item>Арина</item>
+        <item>Василиса</item>
+        <item>Виктор</item>
+        <item>Виталий</item>
+        <item>Владимир</item>
+        <item>Виктория</item>
+        <item>Влада</item>
+        <item>Гавриил</item>
+        <item>Герасим</item>
+        <item>Глеб</item>
+        <item>Геннадий</item>
+        <item>Дарья</item>
+        <item>Дмитрий</item>
+        <item>Евгений</item>
+        <item>Егор</item>
+        <item>Ефим</item>
+        <item>Елена</item>
+        <item>Захар</item>
+        <item>Злата</item>
+        <item>Иван</item>
+        <item>Изабелла</item>
+        <item>Ирина</item>
+        <item>Кира</item>
+        <item>Клим</item>
+        <item>Лера</item>
+        <item>Лев</item>
+        <item>Мария</item>
+        <item>Наталья</item>
+        <item>Оксана</item>
+        <item>Никодим</item>
+    </string-array>
+
+    <string-array name="work">
+        <item>HTML-верстальщик</item>
+        <item>SMM-менеджер</item>
+        <item>UX-дизайнер</item>
+        <item>Web-интегратор</item>
+        <item>Администратор базы данных</item>
+        <item>Администратор сайта</item>
+        <item>Аналитик Big Data</item>
+        <item>Блогер</item>
+        <item>Блокчейн-разработчик</item>
+        <item>Веб-дизайнер</item>
+        <item>Диктор</item>
+        <item>Контент-менеджер</item>
+        <item>Копирайтер</item>
+        <item>Радиоведущий</item>
+        <item>Сетевой инженер</item>
+        <item>Системный администратор</item>
+        <item>Системный аналитик</item>
+        <item>Специалист по информационной безопасности</item>
+        <item>Спичрайтер</item>
+        <item>Тележурналист</item>
+        <item>Тестировщик</item>
+        <item>Автомеханик</item>
+        <item>Водолаз</item>
+        <item>Геодезист</item>
+        <item>Драпировщик</item>
+        <item>Звукооператор</item>
+        <item>Инженер по охране труда и технике безопасности</item>
+        <item>Каменщик</item>
+        <item>Картограф</item>
+        <item>Крановщик</item>
+        <item>Краснодеревщик</item>
+        <item>Кровельщик</item>
+        <item>Литейщик</item>
+        <item>Маляр</item>
+        <item>Маркшейдер</item>
+        <item>Металлург</item>
+        <item>Облицовщик</item>
+        <item>Отделочник</item>
+        <item>Плотник</item>
+        <item>Прораб</item>
+        <item>Слесарь</item>
+        <item>Столяр</item>
+        <item>Строитель</item>
+        <item>Технолог</item>
+        <item>Часовщик</item>
+        <item>Электрик</item>
+    </string-array>
+
+    <string-array name="raions">
+        <item>Дзержинский</item>
+        <item>Индустриальный</item>
+        <item>Кировский</item>
+        <item>Ленинский</item>
+        <item>Мотовилихинский</item>
+        <item>Орджоникидзевский</item>
+        <item>Свердловский</item>
+    </string-array>
+
+</resources>
