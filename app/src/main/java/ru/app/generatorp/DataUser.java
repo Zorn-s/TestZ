@@ -85,7 +85,7 @@ public class DataUser extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //------------вставка в базу данных---------------------------------
+                //------------update базы данных---------------------------------
                 User user = new User(
                         ind,
                         fotoBitmap,
