@@ -20,10 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
 
+
+    ProgressBar progressBar;
+    TextView txt;
+    Handler handler;
+    int ind=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         List<User> users = db.userDao().getAllUsers();
 //-------------------------------------------------------------------
 
+        progressBar = findViewById(R.id.progress);
+        txt = (TextView)findViewById(R.id.textView);
+
+
+
         recyclerView = findViewById(R.id.recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -93,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-
+            H(350);
 
 
 
@@ -129,7 +142,43 @@ public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
     return image;
 }
 //-----------------------------------------------------------
+private void H(final int delay) {
 
+    progressBar.setVisibility(View.VISIBLE);
+    txt.setVisibility(View.VISIBLE);
+
+
+    if (handler != null) {
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    handler = new Handler();
+    handler.post(new Runnable() {
+        @Override
+        public void run() {
+            //------------------------------
+            progressBar.setProgress(ind);
+            ind+=3;
+            txt.setText(String.valueOf(ind) + " %");
+
+            //------------------------------
+
+            handler.postDelayed(this, delay);
+
+//------------------------------останавливаем поток
+            if (ind >= 100) {
+                handler.removeCallbacksAndMessages(null);
+
+                txt.setText(String.valueOf(ind) + " %");
+                ind = 0;
+                progressBar.setVisibility(View.INVISIBLE);
+                txt.setVisibility(View.INVISIBLE);
+            }
+//------------------------------
+
+        }
+    });
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
