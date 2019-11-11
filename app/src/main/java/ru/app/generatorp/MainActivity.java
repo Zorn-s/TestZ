@@ -25,7 +25,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,28 +39,40 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
    // private static final String TAG = "MainActivity";
-    RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+   public RecyclerView recyclerView;
+   public RecyclerView.Adapter recycleradapter;
 
-
+    Spinner spinner;
     ProgressBar progressBar;
     TextView txt;
     Handler handler;
     int ind=0;
 
+    String gorodId="Москва";
+    List<User> users;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent intent = getIntent();
+        gorodId = intent.getStringExtra("gorodId");
+
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-  /*
+/*
         ArrayList<User>  users = new ArrayList<>();
 
         for (int i=0;i<10;i++){
 
         final User user = new User(
+                     0,
+                    "",
                     "0000",
                     "Daniel"+i,
                     "Malone",
@@ -70,27 +85,28 @@ public class MainActivity extends AppCompatActivity {
 
             users.add(user);
         }
-
 */
+
+
 //----------------------коннект к базе  -----------------------------
-        AppDataBase db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
+       final AppDataBase db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
                 .allowMainThreadQueries()
                 .build();
 
 
-        List<User> users = db.userDao().getAllUsers();
+        users = db.userDao().getAllUsers(gorodId);
 //-------------------------------------------------------------------
 
         progressBar = findViewById(R.id.progress);
         txt = (TextView)findViewById(R.id.textView);
 
-
+        spinner = findViewById(R.id.spinner);
 
         recyclerView = findViewById(R.id.recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter(users, this);
-        recyclerView.setAdapter(adapter);
+        recycleradapter = new UserAdapter(users, this);
+        recyclerView.setAdapter(recycleradapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -113,17 +129,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-/*
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "clicking !", Toast.LENGTH_SHORT).show();
 
+       //String selected = spinner.getSelectedItem().toString();
+        //Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
+
+        ArrayAdapter adapter = (ArrayAdapter) spinner.getAdapter();
+
+        int position = adapter.getPosition(gorodId);
+        spinner.setSelection(position);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent,
+                                       View itemSelected, int selectedItemPosition, long selectedId) {
+
+                String[] choose = getResources().getStringArray(R.array.goroda);
+
+                gorodId = choose[selectedItemPosition];
+
+
+
+                users = db.userDao().getAllUsers(gorodId);
+                recycleradapter = new UserAdapter(users, getBaseContext());
+                recyclerView.setAdapter(recycleradapter);
+
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Ваш выбор: " + choose[selectedItemPosition]+"="+selectedItemPosition, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-*/
-
-
 
     }
 //-----------------------------------------------------------
@@ -166,19 +201,38 @@ private void H(final int delay) {
             handler.postDelayed(this, delay);
 
 //------------------------------останавливаем поток
-            if (ind >= 100) {
+            if (ind >= 7) {
                 handler.removeCallbacksAndMessages(null);
 
                 txt.setText(String.valueOf(ind) + " %");
                 ind = 0;
                 progressBar.setVisibility(View.INVISIBLE);
                 txt.setVisibility(View.INVISIBLE);
+
+    //----------------запускаем сервис--------------------
+
+                Intent intent = new Intent(getBaseContext(),Generation.class);
+                intent.putExtra("gorodId","test");
+                getBaseContext().startService(intent);
+
+
+                // startService(new Intent(MainActivity.this, Generation.class));
+
+    //----------------------------------------------------
+
+
             }
 //------------------------------
 
         }
     });
 }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, Generation.class));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,7 +258,12 @@ private void H(final int delay) {
             case R.id.action_settings:
 
                 //Toast.makeText(MainActivity.this, "clicking the settings!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this,CreateUser.class));
+                //startActivity(new Intent(MainActivity.this,CreateUser.class));
+
+                Intent intent = new Intent(getBaseContext(),CreateUser.class);
+                intent.putExtra("gorodId",gorodId);
+                getBaseContext().startActivity(intent);
+
 
                 return true;
 

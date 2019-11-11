@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import static androidx.core.content.ContextCompat.createDeviceProtectedStorageContext;
-import static androidx.core.content.ContextCompat.startActivity;
 
 class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
@@ -61,6 +59,7 @@ public String convertToBase64(Bitmap bitmap) {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+                holder.userId.setText(String.valueOf(users.get(position).getId()));
 
                 bitmap = convertToBitmap(users.get(position).getFotoName());
 
@@ -76,15 +75,14 @@ public String convertToBase64(Bitmap bitmap) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("logs", "title-"+ holder.firstName.getText()+", date-"+holder.lastName.getText()+", id = "+position);
+                Log.d("logs", "title-"+ holder.firstName.getText()+", date-"+holder.lastName.getText()+", id = "+holder.userId.getText());
 
-               // startActivity(new Intent(context,DataUser.class));
 
                 Intent i = new Intent(context,DataUser.class);
-
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.putExtra("userId",String.valueOf(position));
-                i.putExtra("FirstName",holder.firstName.getText());
+              //  i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               // i.putExtra("userId",String.valueOf(position));
+                i.putExtra("userId",holder.userId.getText().toString());
+               // i.putExtra("FirstName",holder.firstName.getText());
                 context.startActivity(i);
 
             }
@@ -103,6 +101,7 @@ public String convertToBase64(Bitmap bitmap) {
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView userId;
         public ImageView fotoName;
         public TextView firstName;
         public TextView lastName;
@@ -113,6 +112,8 @@ public String convertToBase64(Bitmap bitmap) {
 
         public ViewHolder(View itemView){
             super(itemView);
+
+            userId = itemView.findViewById(R.id.user_Id);
             fotoName = itemView.findViewById(R.id.foto);
             firstName = itemView.findViewById(R.id.first_name);
             lastName = itemView.findViewById(R.id.last_name);

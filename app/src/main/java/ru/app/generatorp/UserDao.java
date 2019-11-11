@@ -10,8 +10,11 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-    @Query("SELECT * FROM user")
-    List<User> getAllUsers();
+    @Query("SELECT * FROM user WHERE sity =:sityId")
+    List<User> getAllUsers(String sityId);
+
+    @Query("SELECT sity FROM user WHERE id = :userId")
+    String getSity(String userId);
 
     @Query("SELECT foto_name FROM user WHERE id = :userId")
     String getFoto(String userId);

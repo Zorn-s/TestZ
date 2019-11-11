@@ -17,8 +17,10 @@ import java.io.ByteArrayOutputStream;
 
 
 public class DataUser extends AppCompatActivity {
+
     Bitmap bitmap;
     ImageView Foto;
+    TextView Sity;
     TextView FirstName;
     TextView LastName;
     TextView Email;
@@ -37,6 +39,7 @@ public class DataUser extends AppCompatActivity {
         setContentView(R.layout.data_user);
 
         Foto = findViewById(R.id.foto);
+        Sity = (TextView) findViewById(R.id.sity);
         FirstName = (TextView) findViewById(R.id.first_name);
         LastName = (TextView) findViewById(R.id.last_name);
         Email= (TextView) findViewById(R.id.email);
@@ -53,19 +56,16 @@ public class DataUser extends AppCompatActivity {
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
 
-
-
-        LastName.setText(userId);
+       // LastName.setText(userId);
 //----------------------коннект к базе  -----------------------------
        final AppDataBase db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
                 .allowMainThreadQueries()
                 .build();
 
-        ind = (Integer.parseInt(userId))+1;
-        //F = db.userDao().getFirsName(String.valueOf(ind));
-
+        ind = (Integer.parseInt(userId));
 
         bitmap = convertToBitmap(db.userDao().getFoto(String.valueOf(ind)));
+        Sity.setText(db.userDao().getSity(String.valueOf(ind)));
         Foto.setImageBitmap(bitmap);
         FirstName.setText(db.userDao().getFirsName(String.valueOf(ind)));
         LastName.setText(db.userDao().getLastName(String.valueOf(ind)));
@@ -88,6 +88,7 @@ public class DataUser extends AppCompatActivity {
                 //------------update базы данных---------------------------------
                 User user = new User(
                         ind,
+                        Sity.getText().toString(),
                         fotoBitmap,
                         FirstName.getText().toString(),
                         LastName.getText().toString(),

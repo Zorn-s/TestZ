@@ -23,6 +23,7 @@ import java.util.List;
 
 public class CreateUser extends AppCompatActivity {
 
+    EditText Sity;
     EditText firstName;
     EditText lastName;
     EditText email;
@@ -39,6 +40,7 @@ public class CreateUser extends AppCompatActivity {
     Bitmap bitmap;
     String fotoBitmap;
     int id;
+    String gorodId;
     //----------------------------------------------------------------------------------------
 //конвертируем Bitmap на Base64
     public String convertToBase64(Bitmap bitmap) {
@@ -62,16 +64,20 @@ public class CreateUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_user);
 
+        Intent intent = getIntent();
+        gorodId = intent.getStringExtra("gorodId");
 
         //----------------------коннект к базе  -----------------------------
         final AppDataBase db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
                 .allowMainThreadQueries()
                 .build();
 
-        List<User> users = db.userDao().getAllUsers();
+        //List<User> users = db.userDao().getAllUsers(gorodId);
         //-------------------------------------------------------------------
 
         foto = findViewById(R.id.foto);
+
+        Sity = findViewById(R.id.sity);
         firstName = findViewById(R.id.first_name);
         lastName = findViewById(R.id.last_name);
         email = findViewById(R.id.email);
@@ -83,6 +89,8 @@ public class CreateUser extends AppCompatActivity {
         area = findViewById(R.id.area);
         cars = findViewById(R.id.cars);
 
+
+        Sity.setText(gorodId);
 
         foto.setImageResource(R.drawable.mm);
         bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.mm);
@@ -98,6 +106,7 @@ public class CreateUser extends AppCompatActivity {
          //------------вставка в базу данных---------------------------------
                 User user = new User(
                         id,
+                        Sity.getText().toString(),
                         fotoBitmap,
                         firstName.getText().toString(),
                         lastName.getText().toString(),
@@ -113,7 +122,12 @@ public class CreateUser extends AppCompatActivity {
          //-------------------------------------------------------------------
 
 
-                startActivity(new Intent(CreateUser.this,MainActivity.class));
+               // startActivity(new Intent(CreateUser.this,MainActivity.class));
+                Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                intent.putExtra("gorodId",Sity.getText().toString());
+                getBaseContext().startActivity(intent);
+
+
             }
         });
 

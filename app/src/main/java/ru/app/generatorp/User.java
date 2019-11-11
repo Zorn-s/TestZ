@@ -8,8 +8,9 @@ import androidx.room.PrimaryKey;
 @Entity
 public class User {
 
-    public User(int id,String fotoName,String firstName, String lastName, String email,String age,String work,String gender,String area,String cars) {
+    public User(int id,String sity,String fotoName,String firstName, String lastName, String email,String age,String work,String gender,String area,String cars) {
         this.id = id;
+        this.sity = sity;
         this.fotoName = fotoName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,6 +28,9 @@ public class User {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @ColumnInfo(name = "sity")
+    private String sity;
 
     @ColumnInfo(name = "foto_name")
     private String fotoName;
@@ -61,6 +65,10 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setSity(String Sity) {
+        this.sity = Sity;
     }
 
     public void setFotoName(String fotoName) {
@@ -98,6 +106,10 @@ public class User {
 
     public void setCars(String cars) {
         this.cars = cars;
+    }
+
+    public String getSity() {
+        return sity;
     }
 
     public String getFotoName() {
