@@ -219,6 +219,7 @@ public class Generation extends Service {
  //-------------------
         Intent intentS = new Intent(MainActivity.RECEIVER_INTENT);
         intentS.putExtra(MainActivity.RECEIVER_MESSAGE, "update");
+        intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intentS);
  //-------------------
 

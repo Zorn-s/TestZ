@@ -136,12 +136,15 @@ public class MainActivity extends AppCompatActivity {
 //----------------------------------------------------------
 
 
-        Intent intent = getIntent();
-        gorodId = intent.getStringExtra("gorodId");
+            Intent intent = getIntent();
+       if (intent !=null && intent.getExtras()!=null) {
 
-        Period = intent.getStringExtra("Period");
-        AgeMin = intent.getStringExtra("AgeMin");
-        AgeMax = intent.getStringExtra("AgeMax");
+            gorodId = intent.getStringExtra("gorodId");
+            Period = intent.getStringExtra("Period");
+            AgeMin = intent.getStringExtra("AgeMin");
+            AgeMax = intent.getStringExtra("AgeMax");
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -174,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
 
-
         users = db.userDao().getAllUsers(gorodId);
         Period = db.settingsDao().getPeriod();
 
@@ -199,17 +201,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-               // Log.d(TAG, "onClick: presed!");
 
-                //startActivity(new Intent(MainActivity.this,CreateUser.class));
-
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-           // H(700);
                 //----------------запускаем сервис--------------------
 
                 Intent intent = new Intent(getBaseContext(),Generation.class);
                 intent.putExtra("gorodId",gorodId);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getBaseContext().startService(intent);
 
 
@@ -219,9 +216,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-       //String selected = spinner.getSelectedItem().toString();
-        //Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
 
         adapter = (ArrayAdapter) spinner.getAdapter();
 
@@ -240,17 +234,27 @@ public class MainActivity extends AppCompatActivity {
                 upd(gorodId);
 
 
-                //Toast toast = Toast.makeText(getApplicationContext(),
-                //        "Ваш выбор: " + choose[selectedItemPosition]+"="+selectedItemPosition, Toast.LENGTH_SHORT);
-                //toast.show();
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
+
+
+        upd(gorodId);
+
+
     }
 
-    public void upd(String gorod){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //upd(gorodId);
+    }
+
+
+
+    public void upd(String gorodId){
         try {
             db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
                     .allowMainThreadQueries()
@@ -315,6 +319,7 @@ public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
                 //startActivity(new Intent(MainActivity.this,Settings.class));
                 Intent intent1 = new Intent(getBaseContext(),Settings.class);
                 intent1.putExtra("gorodId",gorodId);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getBaseContext().startActivity(intent1);
 
                 return true;
@@ -326,6 +331,8 @@ public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
 
                 Intent intent = new Intent(getBaseContext(),CreateUser.class);
                 intent.putExtra("gorodId",gorodId);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getBaseContext().startActivity(intent);
 
 

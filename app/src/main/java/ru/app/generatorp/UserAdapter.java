@@ -80,6 +80,7 @@ public String convertToBase64(Bitmap bitmap) {
 
                 Intent i = new Intent(context,DataUser.class);
                 i.putExtra("userId",holder.userId.getText().toString());
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
 
             }

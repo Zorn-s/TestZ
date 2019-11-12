@@ -126,6 +126,7 @@ public class CreateUser extends AppCompatActivity {
                // startActivity(new Intent(CreateUser.this,MainActivity.class));
                 Intent intent = new Intent(getBaseContext(),MainActivity.class);
                 intent.putExtra("gorodId",Sity.getText().toString());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getBaseContext().startActivity(intent);
 
 

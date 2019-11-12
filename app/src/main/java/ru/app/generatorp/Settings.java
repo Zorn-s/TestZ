@@ -127,7 +127,7 @@ public class Settings extends AppCompatActivity implements SeekBar.OnSeekBarChan
                 intent.putExtra("Period",txtP.getText().toString());
                 intent.putExtra("AgeMin",txtMin.getText().toString());
                 intent.putExtra("AgeMax",txtMax.getText().toString());
-
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getBaseContext().startActivity(intent);
 
 
