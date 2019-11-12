@@ -1,7 +1,9 @@
 package ru.app.generatorp;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -38,11 +41,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static final String RECEIVER_INTENT = "RECEIVER_INTENT";
+    public static final String RECEIVER_MESSAGE = "RECEIVER_MESSAGE";
+    BroadcastReceiver  mBroadcastReceiver;
+
+   private AppDataBase db;
    // private static final String TAG = "MainActivity";
    public RecyclerView recyclerView;
    public RecyclerView.Adapter recycleradapter;
 
+    ArrayAdapter adapter;
     Spinner spinner;
+
     ProgressBar progressBar;
     TextView txt;
     Handler handler;
@@ -51,10 +62,61 @@ public class MainActivity extends AppCompatActivity {
     String gorodId="Москва";
     List<User> users;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((mBroadcastReceiver),
+                new IntentFilter(RECEIVER_INTENT)
+        );
+    }
+    @Override
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+        super.onStop();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//---------------------------------------------------------
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String message = intent.getStringExtra(RECEIVER_MESSAGE);
+                // call any method you want here
+
+
+                if (message.equals("update")){
+                    System.out.println(message);
+
+
+//------------------------------------------
+                    handler = new Handler();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            handler.postDelayed(this, 1000);
+                            ind++;
+//------------------------------останавливаем поток
+                            if (ind >= 7) {
+                                handler.removeCallbacksAndMessages(null);
+                                upd(gorodId);
+
+                            }
+//------------------------------
+
+                        }
+                    });
+//------------------------------------------
+
+                }
+
+            }
+        };
+//----------------------------------------------------------
 
 
         Intent intent = getIntent();
@@ -89,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //----------------------коннект к базе  -----------------------------
-       final AppDataBase db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
+       db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
                 .allowMainThreadQueries()
                 .build();
 
@@ -133,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
        //String selected = spinner.getSelectedItem().toString();
         //Toast.makeText(getApplicationContext(), selected, Toast.LENGTH_SHORT).show();
 
-        ArrayAdapter adapter = (ArrayAdapter) spinner.getAdapter();
+        adapter = (ArrayAdapter) spinner.getAdapter();
 
         int position = adapter.getPosition(gorodId);
         spinner.setSelection(position);
@@ -147,20 +209,37 @@ public class MainActivity extends AppCompatActivity {
                 gorodId = choose[selectedItemPosition];
 
 
+                upd(gorodId);
 
-                users = db.userDao().getAllUsers(gorodId);
-                recycleradapter = new UserAdapter(users, getBaseContext());
-                recyclerView.setAdapter(recycleradapter);
 
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Ваш выбор: " + choose[selectedItemPosition]+"="+selectedItemPosition, Toast.LENGTH_SHORT);
-                toast.show();
+                //Toast toast = Toast.makeText(getApplicationContext(),
+                //        "Ваш выбор: " + choose[selectedItemPosition]+"="+selectedItemPosition, Toast.LENGTH_SHORT);
+                //toast.show();
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
     }
+
+    public void upd(String gorod){
+        try {
+            db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
+                    .allowMainThreadQueries()
+                    .build();
+
+            users = db.userDao().getAllUsers(gorodId);
+
+            recycleradapter = new UserAdapter(users, getBaseContext());
+            recyclerView.setAdapter(recycleradapter);
+            db.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
 //-----------------------------------------------------------
 public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -201,7 +280,7 @@ private void H(final int delay) {
             handler.postDelayed(this, delay);
 
 //------------------------------останавливаем поток
-            if (ind >= 7) {
+            if (ind >= 10) {
                 handler.removeCallbacksAndMessages(null);
 
                 txt.setText(String.valueOf(ind) + " %");
@@ -212,11 +291,9 @@ private void H(final int delay) {
     //----------------запускаем сервис--------------------
 
                 Intent intent = new Intent(getBaseContext(),Generation.class);
-                intent.putExtra("gorodId","test");
+                intent.putExtra("gorodId",gorodId);
                 getBaseContext().startService(intent);
 
-
-                // startService(new Intent(MainActivity.this, Generation.class));
 
     //----------------------------------------------------
 
@@ -227,6 +304,8 @@ private void H(final int delay) {
         }
     });
 }
+
+
 
     @Override
     protected void onDestroy() {

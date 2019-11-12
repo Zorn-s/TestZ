@@ -191,4 +191,10 @@
         <item>Свердловский</item>
     </string-array>
 
+    <string-array name="email">
+        <item>test@gmail.com</item>
+        <item>test@rambler.ru</item>
+        <item>test@mail.ru</item>
+        <item>test@yahoo.com</item>
+    </string-array>
 </resources>

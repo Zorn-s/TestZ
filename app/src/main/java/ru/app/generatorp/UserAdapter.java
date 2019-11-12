@@ -79,16 +79,11 @@ public String convertToBase64(Bitmap bitmap) {
 
 
                 Intent i = new Intent(context,DataUser.class);
-              //  i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-               // i.putExtra("userId",String.valueOf(position));
                 i.putExtra("userId",holder.userId.getText().toString());
-               // i.putExtra("FirstName",holder.firstName.getText());
                 context.startActivity(i);
 
             }
         });
-
-
 
     }
 
@@ -96,9 +91,6 @@ public String convertToBase64(Bitmap bitmap) {
     public int getItemCount() {
         return users.size();
     }
-
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView userId;
