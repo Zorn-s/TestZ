@@ -10,12 +10,16 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/Platform.Widget.AppCompat.Spinner"
+        android:layout_width="412dp"
+        android:layout_height="45dp"
         android:entries="@array/goroda"
+        android:scrollbarStyle="insideInset"
+        android:spinnerMode="dialog"
         android:textAlignment="center"
         app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|center" />
+        app:layout_anchorGravity="top|center"
+        tools:layout_editor_absoluteX="-2dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
