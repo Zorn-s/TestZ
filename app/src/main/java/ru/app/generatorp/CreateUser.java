@@ -92,8 +92,8 @@ public class CreateUser extends AppCompatActivity {
 
         Sity.setText(gorodId);
 
-        foto.setImageResource(R.drawable.mm);
-        bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.mm);
+        foto.setImageResource(R.drawable.mm50);
+        bitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.mm50);
 
         fotoBitmap = convertToBase64(bitmap);
 

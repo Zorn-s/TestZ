@@ -21,7 +21,7 @@ public class Generation extends Service {
     private AppDataBase db;
 
 
-    int id;
+    int id=0;
 
     private String[] firstName;
     private String[] lastName;
@@ -34,15 +34,15 @@ public class Generation extends Service {
     private  int r;
     private  int e;
 
-    private String gorodId;
+    private String gorodId="Москва";
 
     private Bitmap bitmapM;
     private Bitmap bitmapF;
     private String fotoBitmap;
 
-    String Period;
-    String AgeMin;
-    String AgeMax;
+    private String Period;
+    private String AgeMin;
+    private String AgeMax;
 
     public Generation() {
     }
@@ -84,9 +84,10 @@ public class Generation extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
-        if (intent !=null && intent.getExtras()!=null){
+        if (!intent.getStringExtra("gorodId").equals(null)){
 
         gorodId = intent.getStringExtra("gorodId");
+
            }
 
 
@@ -121,8 +122,8 @@ public class Generation extends Service {
 
  */
 
-        bitmapM = BitmapFactory.decodeResource(this.getResources(),R.drawable.mm);
-        bitmapF = BitmapFactory.decodeResource(this.getResources(),R.drawable.ff);
+        bitmapM = BitmapFactory.decodeResource(this.getResources(),R.drawable.mm50);
+        bitmapF = BitmapFactory.decodeResource(this.getResources(),R.drawable.ff50);
 
 
         //----------------------коннект к базе  -----------------------------
@@ -134,7 +135,7 @@ public class Generation extends Service {
         AgeMin = db.settingsDao().getAge_Min();
         AgeMax = db.settingsDao().getAge_Max();
 
-        if(Period.equals("")){
+        if(Period == null){
             Period="10";
             AgeMin="22";
             AgeMax="35";

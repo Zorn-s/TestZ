@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             Intent intent = getIntent();
-       if (intent !=null && intent.getExtras()!=null) {
+       if (intent !=null && intent.getStringExtra("Period")!=null) {
 
             gorodId = intent.getStringExtra("gorodId");
             Period = intent.getStringExtra("Period");
@@ -178,8 +178,12 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         users = db.userDao().getAllUsers(gorodId);
-        Period = db.settingsDao().getPeriod();
 
+       // if(db.settingsDao().getPeriod().toString().equals(null)) {
+        String p = db.settingsDao().getPeriod();
+        if(p != null){
+            Period = db.settingsDao().getPeriod();
+        }
 //-------------------------------------------------------------------
 
         progressBar = findViewById(R.id.progress);
@@ -239,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        db.close();
 
         upd(gorodId);
 
@@ -249,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //upd(gorodId);
+        upd(gorodId);
     }
 
 
