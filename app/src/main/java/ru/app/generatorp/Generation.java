@@ -18,7 +18,7 @@ import java.io.ByteArrayOutputStream;
 public class Generation extends Service {
 
 
-
+    private AppDataBase db;
 
 
     int id;
@@ -40,6 +40,9 @@ public class Generation extends Service {
     private Bitmap bitmapF;
     private String fotoBitmap;
 
+    String Period;
+    String AgeMin;
+    String AgeMax;
 
     public Generation() {
     }
@@ -89,8 +92,8 @@ public class Generation extends Service {
 
         Toast.makeText(this, "Служба запущена , генерируем для "+gorodId, Toast.LENGTH_SHORT).show();
 
-         final  int minAge = 22;
-         final  int maxAge = 35;
+         //final  int minAge = 22;
+         //final  int maxAge = 35;
 
 //-------------------------------генерация и вставка в базу-----------------------------------------
 /*
@@ -123,9 +126,20 @@ public class Generation extends Service {
 
 
         //----------------------коннект к базе  -----------------------------
-        final AppDataBase db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
+        db = Room.databaseBuilder(getApplicationContext(), AppDataBase.class, "production")
                 .allowMainThreadQueries()
                 .build();
+
+        Period = db.settingsDao().getPeriod();
+        AgeMin = db.settingsDao().getAge_Min();
+        AgeMax = db.settingsDao().getAge_Max();
+
+        if(Period.equals("")){
+            Period="10";
+            AgeMin="22";
+            AgeMax="35";
+
+        }
 
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -137,7 +151,8 @@ public class Generation extends Service {
             int rand1 = (int) (Math.random() * lName);
             int rand2 = (int) (Math.random() * w);
             int rand3 = (int) (Math.random() * r);
-            int rand4 = (int) (rnd(minAge, maxAge));
+            //int rand4 = (int) (rnd(minAge, maxAge));
+            int rand4 = (int) (rnd((Integer.parseInt(AgeMin)), (Integer.parseInt(AgeMax))));
             int em = (int) (Math.random() * e);
             int avto = (int) (Math.random() * 2);
 
@@ -199,7 +214,7 @@ public class Generation extends Service {
         });
         t.start();
 
-        db.close();
+
 
  //-------------------
         Intent intentS = new Intent(MainActivity.RECEIVER_INTENT);
@@ -211,7 +226,7 @@ public class Generation extends Service {
 //--------------------------------------------------------------------------------------------------
 
 
-
+        stopSelf();
 
 
         return START_STICKY;
@@ -222,8 +237,8 @@ public class Generation extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        Toast.makeText(this, "Служба остановлена",
-                Toast.LENGTH_SHORT).show();
+       // db.close();
+      //  Toast.makeText(this, "Служба остановлена", Toast.LENGTH_SHORT).show();
 
     }
 

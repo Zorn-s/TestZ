@@ -75,7 +75,7 @@ public String convertToBase64(Bitmap bitmap) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("logs", "title-"+ holder.firstName.getText()+", date-"+holder.lastName.getText()+", id = "+holder.userId.getText());
+               // Log.d("logs", "title-"+ holder.firstName.getText()+", date-"+holder.lastName.getText()+", id = "+holder.userId.getText());
 
 
                 Intent i = new Intent(context,DataUser.class);

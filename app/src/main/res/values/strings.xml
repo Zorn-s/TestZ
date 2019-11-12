@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">GeneratorP</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
+    <string name="new_user">Новый пользователь</string>
+
 
     <string-array name="goroda">
         <item>Москва</item>

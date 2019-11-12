@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "032206bcf8a38e6e3fdef9fac0a0bc95",
+    "identityHash": "a639a0471eeda7b216d197ed0bb43851",
     "entities": [
       {
         "tableName": "User",
@@ -83,12 +83,50 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Setting",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `period` TEXT, `age_min` TEXT, `age_max` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "period",
+            "columnName": "period",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "age_min",
+            "columnName": "age_min",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "age_max",
+            "columnName": "age_max",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '032206bcf8a38e6e3fdef9fac0a0bc95')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a639a0471eeda7b216d197ed0bb43851')"
     ]
   }
 }

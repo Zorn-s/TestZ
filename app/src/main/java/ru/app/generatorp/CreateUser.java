@@ -119,6 +119,7 @@ public class CreateUser extends AppCompatActivity {
 
                 );
                 db.userDao().insertAll(user);
+                db.close();
          //-------------------------------------------------------------------
 
 

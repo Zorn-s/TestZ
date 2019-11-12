@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
     int ind=0;
 
     String gorodId="Москва";
+
+    String Period="10";
+    String AgeMin="22";
+    String AgeMax="35";
+
     List<User> users;
 
 
@@ -92,17 +97,29 @@ public class MainActivity extends AppCompatActivity {
                 if (message.equals("update")){
                     System.out.println(message);
 
-
+                    progressBar.setVisibility(View.VISIBLE);
+                    txt.setVisibility(View.VISIBLE);
 //------------------------------------------
                     handler = new Handler();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            handler.postDelayed(this, 1000);
+
+                            progressBar.setProgress(ind);
                             ind++;
+                            txt.setText(String.valueOf(ind) + " %");
+
+                            handler.postDelayed(this, 1000);
+
 //------------------------------останавливаем поток
-                            if (ind >= 7) {
+                            if (ind >= (Integer.parseInt(Period))) {
                                 handler.removeCallbacksAndMessages(null);
+
+                                txt.setText(String.valueOf(ind) + " %");
+                                ind = 0;
+                                progressBar.setVisibility(View.INVISIBLE);
+                                txt.setVisibility(View.INVISIBLE);
+
                                 upd(gorodId);
 
                             }
@@ -122,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         gorodId = intent.getStringExtra("gorodId");
 
-
+        Period = intent.getStringExtra("Period");
+        AgeMin = intent.getStringExtra("AgeMin");
+        AgeMax = intent.getStringExtra("AgeMax");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -157,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         users = db.userDao().getAllUsers(gorodId);
+        Period = db.settingsDao().getPeriod();
+
 //-------------------------------------------------------------------
 
         progressBar = findViewById(R.id.progress);
@@ -184,8 +205,15 @@ public class MainActivity extends AppCompatActivity {
 
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-            H(350);
+           // H(700);
+                //----------------запускаем сервис--------------------
 
+                Intent intent = new Intent(getBaseContext(),Generation.class);
+                intent.putExtra("gorodId",gorodId);
+                getBaseContext().startService(intent);
+
+
+                //----------------------------------------------------
 
 
             }
@@ -256,55 +284,6 @@ public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
     return image;
 }
 //-----------------------------------------------------------
-private void H(final int delay) {
-
-    progressBar.setVisibility(View.VISIBLE);
-    txt.setVisibility(View.VISIBLE);
-
-
-    if (handler != null) {
-        handler.removeCallbacksAndMessages(null);
-    }
-
-    handler = new Handler();
-    handler.post(new Runnable() {
-        @Override
-        public void run() {
-            //------------------------------
-            progressBar.setProgress(ind);
-            ind+=3;
-            txt.setText(String.valueOf(ind) + " %");
-
-            //------------------------------
-
-            handler.postDelayed(this, delay);
-
-//------------------------------останавливаем поток
-            if (ind >= 10) {
-                handler.removeCallbacksAndMessages(null);
-
-                txt.setText(String.valueOf(ind) + " %");
-                ind = 0;
-                progressBar.setVisibility(View.INVISIBLE);
-                txt.setVisibility(View.INVISIBLE);
-
-    //----------------запускаем сервис--------------------
-
-                Intent intent = new Intent(getBaseContext(),Generation.class);
-                intent.putExtra("gorodId",gorodId);
-                getBaseContext().startService(intent);
-
-
-    //----------------------------------------------------
-
-
-            }
-//------------------------------
-
-        }
-    });
-}
-
 
 
     @Override
@@ -325,16 +304,22 @@ private void H(final int delay) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-      //  int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-      //  if (id == R.id.action_settings) {
-      //      return true;
-      //  }
 
 
         switch (item.getItemId()) {
+
             case R.id.action_settings:
+
+                //Toast.makeText(MainActivity.this, "clicking the settings!", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(MainActivity.this,Settings.class));
+                Intent intent1 = new Intent(getBaseContext(),Settings.class);
+                intent1.putExtra("gorodId",gorodId);
+                getBaseContext().startActivity(intent1);
+
+                return true;
+
+            case R.id.new_user:
 
                 //Toast.makeText(MainActivity.this, "clicking the settings!", Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(MainActivity.this,CreateUser.class));
