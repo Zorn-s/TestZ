@@ -197,7 +197,7 @@ public class Generation extends Service {
                         email[em],
                         String.valueOf(rand4),
                         work[rand2],
-                        "Female",
+                        "Man",
                         raions[rand3],
                         ((avto == 1) ? "Yes" : "No")
 
