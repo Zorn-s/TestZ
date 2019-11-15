@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -193,9 +194,18 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       // recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       // recycleradapter = new UserAdapter(users, this);
+      //  recyclerView.setAdapter(recycleradapter);
+
+
+//------------------------------------------------------------
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(layoutManager);
+
         recycleradapter = new UserAdapter(users, this);
         recyclerView.setAdapter(recycleradapter);
+//------------------------------------------------------------
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -354,5 +364,6 @@ public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
     }
 
 
-
+    private class CaptionedImagesAdapter {
+    }
 }
